@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Project Ignite | Enterprise Quality Intelligence</title>
+<style>
+:root {
+  --site-primary: #153B35;
+  --site-on-primary: #FFFFFF;
+  --site-secondary: #E5A84B;
+  --site-on-secondary: #17211F;
+  --site-background: #F4F6F2;
+  --site-on-background: #17211F;
+  --site-font-body: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-font-heading: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --site-heading-scale: 1;
+  --site-spacing-scale: 1;
+  --site-radius-scale: 1;
+  --site-decoration-opacity: 1;
+  --surface: light-dark(#FFFFFF, #17211F);
+  --surface-soft: light-dark(#EDF1EC, #202D29);
+  --ink-muted: light-dark(#64716B, #A7B5AE);
+  --line: light-dark(#DCE3DD, #35443D);
+  --green: #24765F;
+  --amber: #B7791F;
+  --red: #B84A42;
+}
+* { box-sizing: border-box; }
+html { color-scheme: light dark; }
+body { margin: 0; font-family: var(--site-font-body); background: var(--site-background); color: var(--site-on-background); }
+#app { min-height: 100vh; width: 100%; background-color: var(--site-background); color: var(--site-on-background); border-radius: 0; overflow: hidden; }
+button { font: inherit; cursor: pointer; }
+.topbar { background: var(--site-primary); color: var(--site-on-primary); padding: calc(18px * var(--site-spacing-scale)) clamp(20px, 5vw, 72px); display:flex; align-items:center; justify-content:space-between; gap:18px; }
+.brand { display:flex; align-items:center; gap:12px; font-weight:750; letter-spacing:-.03em; }
+.brand-mark { width:34px; height:34px; border-radius:10px; background:var(--site-secondary); color:var(--site-on-secondary); display:grid; place-items:center; font-weight:900; }
+.brand small { display:block; font-size:10px; letter-spacing:.14em; opacity:.72; font-weight:600; margin-top:2px; }
+.topnav { display:flex; gap:8px; align-items:center; flex-wrap:wrap; }
+.topnav button { border:1px solid transparent; background:transparent; color:inherit; border-radius:999px; padding:9px 13px; font-size:13px; opacity:.88; }
+.topnav button.active,.topnav button:hover { border-color:rgba(255,255,255,.3); background:rgba(255,255,255,.1); opacity:1; }
+.top-cta { background:var(--site-secondary)!important; color:var(--site-on-secondary)!important; font-weight:700; }
+main { max-width:1240px; margin:0 auto; padding: clamp(24px, 4vw, 52px) clamp(18px, 4vw, 48px) 70px; }
+.eyebrow { text-transform:uppercase; letter-spacing:.15em; font-size:11px; color:var(--green); font-weight:800; }
+h1,h2,h3 { font-family:var(--site-font-heading); letter-spacing:-.045em; }
+h1 { font-size:calc(clamp(38px, 5vw, 64px) * var(--site-heading-scale)); line-height:1.02; max-width:780px; margin:14px 0 18px; }
+h2 { font-size:calc(30px * var(--site-heading-scale)); margin:0 0 8px; }
+h3 { font-size:19px; margin:0 0 8px; }
+.lead { color:var(--ink-muted); max-width:700px; font-size:17px; line-height:1.65; }
+.hero { display:grid; grid-template-columns:1.25fr .75fr; gap:34px; align-items:center; padding:26px 0 46px; }
+.hero-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:25px; }
+.btn { border:1px solid var(--line); border-radius:999px; padding:12px 18px; background:var(--surface); color:var(--site-on-background); font-weight:700; }
+.btn.primary { background:var(--site-primary); color:var(--site-on-primary); border-color:var(--site-primary); }
+.btn.gold { background:var(--site-secondary); color:var(--site-on-secondary); border-color:var(--site-secondary); }
+.hero-panel { background:var(--site-primary); color:white; border-radius:calc(22px * var(--site-radius-scale)); padding:26px; position:relative; overflow:hidden; box-shadow:0 18px 45px rgba(17,49,42,.13); }
+.hero-panel:after { content:""; position:absolute; width:230px; height:230px; right:-90px; top:-110px; border-radius:50%; border:1px solid rgba(255,255,255,.17); box-shadow:0 0 0 28px rgba(255,255,255,.04),0 0 0 58px rgba(255,255,255,.03); opacity:var(--site-decoration-opacity); }
+.panel-label { font-size:11px; letter-spacing:.15em; text-transform:uppercase; opacity:.7; }
+.big-risk { font-size:54px; letter-spacing:-.06em; font-weight:800; margin:14px 0 0; }
+.risk-sub { opacity:.75; font-size:13px; }
+.mini-bars { display:grid; gap:12px; margin-top:26px; }
+.bar-row { display:grid; grid-template-columns:100px 1fr 35px; gap:10px; align-items:center; font-size:12px; }
+.bar { height:7px; border-radius:9px; background:rgba(255,255,255,.17); overflow:hidden; }
+.bar i { display:block; height:100%; background:var(--site-secondary); border-radius:9px; }
+.section-head { display:flex; justify-content:space-between; align-items:end; gap:20px; margin:22px 0 18px; }
+.section-head p { color:var(--ink-muted); margin:0; font-size:14px; }
+.grid { display:grid; grid-template-columns:repeat(3,1fr); gap:15px; }
+.card { background:var(--surface); border:1px solid var(--line); border-radius:calc(17px * var(--site-radius-scale)); padding:21px; min-width:0; }
+.card p { color:var(--ink-muted); font-size:13px; line-height:1.55; margin:8px 0 0; }
+.card-icon { width:36px; height:36px; display:grid; place-items:center; border-radius:11px; background:var(--surface-soft); color:var(--green); font-size:18px; margin-bottom:17px; }
+.metric { font-size:30px; font-weight:800; letter-spacing:-.05em; margin-top:5px; }
+.metric-label { color:var(--ink-muted); font-size:12px; }
+.workspace { margin-top:48px; }
+.tabs { display:flex; gap:7px; flex-wrap:wrap; border-bottom:1px solid var(--line); margin:18px 0 20px; }
+.tabs button { border:0; border-bottom:2px solid transparent; background:transparent; color:var(--ink-muted); padding:12px 14px; font-weight:700; font-size:13px; }
+.tabs button.active { color:var(--site-primary); border-color:var(--site-secondary); }
+.demo-layout { display:grid; grid-template-columns:1.1fr .9fr; gap:16px; }
+.rule-list { display:grid; gap:0; }
+.rule { display:flex; justify-content:space-between; gap:12px; padding:13px 0; border-bottom:1px solid var(--line); font-size:13px; }
+.rule:last-child { border-bottom:0; }
+.pill { display:inline-flex; align-items:center; gap:6px; border-radius:999px; padding:5px 9px; font-size:11px; font-weight:750; white-space:nowrap; background:var(--surface-soft); }
+.pill.warn { color:var(--amber); background:light-dark(#FFF4DF,#3A3020); }
+.pill.good { color:var(--green); background:light-dark(#E7F4EE,#203A31); }
+.pill.bad { color:var(--red); background:light-dark(#FBEAE8,#422725); }
+.simulator { display:grid; gap:15px; }
+.field label { display:block; font-size:12px; color:var(--ink-muted); margin-bottom:7px; font-weight:700; }
+.field input,.field select { width:100%; border:1px solid var(--line); background:var(--surface); color:var(--site-on-background); border-radius:10px; padding:12px; font:inherit; }
+.result { background:var(--surface-soft); border-radius:12px; padding:15px; font-size:13px; line-height:1.55; min-height:76px; }
+.table { width:100%; border-collapse:collapse; font-size:13px; }
+.table th,.table td { text-align:left; padding:12px 9px; border-bottom:1px solid var(--line); }
+.table th { color:var(--ink-muted); font-size:11px; text-transform:uppercase; letter-spacing:.08em; }
+.chat-card { background:var(--surface); border:1px solid var(--line); border-radius:17px; overflow:hidden; }
+.chat-head { padding:15px 18px; background:var(--surface-soft); display:flex; justify-content:space-between; align-items:center; font-weight:750; font-size:13px; }
+.chat-body { padding:18px; display:grid; gap:13px; }
+.bubble { max-width:88%; border-radius:14px; padding:12px 14px; font-size:13px; line-height:1.55; }
+.bubble.ai { background:var(--surface-soft); }
+.bubble.user { background:var(--site-primary); color:white; margin-left:auto; }
+.prompt-row { display:flex; gap:8px; padding:0 18px 18px; }
+.prompt-row input { min-width:0; flex:1; border:1px solid var(--line); border-radius:999px; padding:11px 14px; background:var(--surface); color:var(--site-on-background); }
+.prompt-row button { border:0; border-radius:999px; padding:0 17px; background:var(--site-secondary); color:var(--site-on-secondary); font-weight:800; }
+.footer { border-top:1px solid var(--line); margin-top:55px; padding-top:22px; color:var(--ink-muted); display:flex; justify-content:space-between; gap:15px; flex-wrap:wrap; font-size:12px; }
+.notice { background:light-dark(#FFF6E7,#352B1C); color:light-dark(#76501A,#F0D39C); border:1px solid light-dark(#F1D9A9,#5B482B); border-radius:12px; padding:12px 14px; font-size:12px; line-height:1.5; margin-top:18px; }
+.view { display:none; }
+.view.active { display:block; }
+@media(max-width:850px) { .hero,.demo-layout { grid-template-columns:1fr; } .grid { grid-template-columns:repeat(2,1fr); } .topbar { align-items:flex-start; flex-direction:column; } }
+@media(max-width:560px) { .grid { grid-template-columns:1fr; } .section-head { align-items:flex-start; flex-direction:column; } .topnav { width:100%; } .topnav button { padding:8px 10px; } .table { font-size:11px; } }
+</style>
+</head>
+<body>
+<div id="app">
+<header class="topbar">
+  <div class="brand"><div class="brand-mark">I</div><div>PROJECT IGNITE<small>ENTERPRISE AI ENGINEERING & QUALITY INTELLIGENCE</small></div></div>
+  <nav class="topnav" aria-label="Main navigation">
+    <button class="nav active" data-view="overview">Overview</button>
+    <button class="nav" data-view="quality">Quality lab</button>
+    <button class="nav" data-view="teammate">AI teammate</button>
+    <button class="nav top-cta" data-view="access">Access options</button>
+  </nav>
+</header>
+<main>
+<section class="view active" id="overview">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">A clearer view of enterprise software risk</div>
+      <h1>Know what changed. Understand what matters.</h1>
+      <p class="lead">Project Ignite connects requirements, applications, data, tests and delivery evidence to help teams uncover quality blind spots and make better engineering decisions.</p>
+      <div class="hero-actions"><button class="btn primary" data-go="quality">Explore quality lab <span aria-hidden="true">→</span></button><button class="btn" data-go="teammate">Meet the AI teammate</button></div>
+      <div class="notice">Interactive product concept using fictional banking data. Results are illustrative and are not a certification, audit opinion or production-system assessment.</div>
+    </div>
+    <aside class="hero-panel">
+      <div class="panel-label">Illustrative portfolio snapshot</div>
+      <div class="big-risk">7.8<span style="font-size:20px;opacity:.7"> / 10</span></div>
+      <div class="risk-sub">Change risk indicator · sample environment</div>
+      <div class="mini-bars">
+        <div class="bar-row"><span>Traceability</span><div class="bar"><i style="width:76%"></i></div><b>76</b></div>
+        <div class="bar-row"><span>Test evidence</span><div class="bar"><i style="width:61%"></i></div><b>61</b></div>
+        <div class="bar-row"><span>Change impact</span><div class="bar"><i style="width:84%"></i></div><b>84</b></div>
+      </div>
+    </aside>
+  </div>
+  <div class="section-head"><div><div class="eyebrow">One connected intelligence layer</div><h2>From fragmented evidence to informed action</h2></div><p>Explore the core capabilities</p></div>
+  <div class="grid">
+    <article class="card"><div class="card-icon">⌕</div><h3>Quality intelligence</h3><p>Connect requirements, business rules, test cases, defects and execution evidence to expose coverage uncertainty.</p></article>
+    <article class="card"><div class="card-icon">▦</div><h3>Data intelligence</h3><p>Profile datasets, identify anomalies and examine integrity, boundaries and execution trends.</p></article>
+    <article class="card"><div class="card-icon">⌘</div><h3>Engineering intelligence</h3><p>Understand application dependencies, repositories, services and the likely impact of change.</p></article>
+    <article class="card"><div class="card-icon">↗</div><h3>Change & release risk</h3><p>Bring together change context, dependencies and evidence to help prioritise validation.</p></article>
+    <article class="card"><div class="card-icon">✳</div><h3>AI engineering teammate</h3><p>Plan and assist with development, testing, review and documentation under controlled permissions.</p></article>
+    <article class="card"><div class="card-icon">◈</div><h3>Evidence & governance</h3><p>Preserve source, timestamp, version and provenance so findings can be independently reviewed.</p></article>
+  </div>
+  <div class="workspace">
+    <div class="section-head"><div><div class="eyebrow">Try a real-world pattern</div><h2>Bank transfer quality scenario</h2><p>Explore how business rules translate into test conditions.</p></div><button class="btn" data-go="quality">Open interactive lab →</button></div>
+    <div class="grid">
+      <article class="card"><div class="metric">$1–$10k</div><div class="metric-label">Single transfer range · fictional rule</div></article>
+      <article class="card"><div class="metric">$20k</div><div class="metric-label">Daily transfer limit · fictional rule</div></article>
+      <article class="card"><div class="metric">OTP</div><div class="metric-label">Additional verification required</div></article>
+    </div>
+  </div>
+</section>
+<section class="view" id="quality">
+  <div class="eyebrow">Interactive banking quality lab</div><h1 style="font-size:clamp(34px,4vw,50px)">Explore the edges of a transfer.</h1>
+  <p class="lead">Change the transfer amount and account conditions to see how a small set of illustrative business rules can generate meaningful test scenarios.</p>
+  <div class="tabs"><button class="tab active" data-tab="sim">Rule simulator</button><button class="tab" data-tab="cases">Boundary test cases</button><button class="tab" data-tab="risks">Risk observations</button></div>
+  <div class="tabview active" id="sim">
+    <div class="demo-layout">
+      <div class="card"><h3>Sample business rules</h3><div class="rule-list">
+        <div class="rule"><span>Minimum transfer</span><b>$1.00</b></div><div class="rule"><span>Maximum single transfer</span><b>$10,000</b></div><div class="rule"><span>Daily cumulative limit</span><b>$20,000</b></div><div class="rule"><span>Available balance</span><b>Must be sufficient</b></div><div class="rule"><span>One-time password</span><b>Required</b></div>
+      </div><p>These rules are demonstration assumptions, not verified banking requirements.</p></div>
+      <div class="card simulator"><h3>Try a transfer</h3>
+        <div class="field"><label for="amount">Transfer amount (AUD)</label><input id="amount" type="number" min="0" step="0.01" value="1000"></div>
+        <div class="field"><label for="balance">Available balance (AUD)</label><input id="balance" type="number" min="0" step="0.01" value="2500"></div>
+        <div class="field"><label for="daily">Already transferred today (AUD)</label><input id="daily" type="number" min="0" step="0.01" value="500"></div>
+        <div class="field"><label for="otp">OTP verification</label><select id="otp"><option value="yes">Verified</option><option value="no">Not verified</option></select></div>
+        <button class="btn primary" id="evaluate">Evaluate scenario</button><div class="result" id="result" aria-live="polite">Enter values and evaluate the sample rules.</div>
+      </div>
+    </div>
+  </div>
+  <div class="tabview" id="cases" style="display:none"><div class="card"><h3>Boundary value analysis</h3><p>Test values immediately below, at and above the defined limits.</p><table class="table"><thead><tr><th>Test value</th><th>Purpose</th><th>Expected result</th></tr></thead><tbody><tr><td>$0.99</td><td>Below minimum</td><td><span class="pill bad">Reject</span></td></tr><tr><td>$1.00</td><td>At minimum</td><td><span class="pill good">Accept*</span></td></tr><tr><td>$1.01</td><td>Above minimum</td><td><span class="pill good">Accept*</span></td></tr><tr><td>$9,999.99</td><td>Below maximum</td><td><span class="pill good">Accept*</span></td></tr><tr><td>$10,000.00</td><td>At maximum</td><td><span class="pill good">Accept*</span></td></tr><tr><td>$10,000.01</td><td>Above maximum</td><td><span class="pill bad">Reject</span></td></tr></tbody></table><p>*Assumes sufficient balance, daily limit available and successful OTP. These are generated examples, not executed tests.</p></div></div>
+  <div class="tabview" id="risks" style="display:none"><div class="grid"><article class="card"><span class="pill warn">Needs investigation</span><h3 style="margin-top:14px">Duplicate submission</h3><p>Check idempotency when a user retries after a timeout.</p></article><article class="card"><span class="pill warn">Needs investigation</span><h3 style="margin-top:14px">Debit then timeout</h3><p>Validate reconciliation if the debit succeeds but the response is lost.</p></article><article class="card"><span class="pill warn">Needs investigation</span><h3 style="margin-top:14px">Concurrent transfers</h3><p>Check daily limit enforcement under simultaneous requests.</p></article></div></div>
+</section>
+<section class="view" id="teammate">
+  <div class="eyebrow">Autonomous engineering · controlled assistance</div><h1 style="font-size:clamp(34px,4vw,50px)">A teammate that explains its work.</h1>
+  <p class="lead">Explore a scripted example of how an AI engineering teammate could reason about a quality concern. This demo does not connect to a repository, execute code or call a live AI service.</p>
+  <div class="demo-layout" style="margin-top:25px">
+    <div class="chat-card"><div class="chat-head"><span>✳ Ignite engineering teammate</span><span class="pill good">Sample mode</span></div><div class="chat-body" id="chatbody"><div class="bubble user">What should we test for a transfer timeout after debit?</div><div class="bubble ai">I would investigate whether the debit was committed before the response timed out. The key risk is a customer retry creating a duplicate transfer or an unclear transaction state.</div><div class="bubble ai"><b>Suggested checks</b><br>1. Retry with the same idempotency key.<br>2. Confirm the ledger contains one debit.<br>3. Verify status and customer notification.<br>4. Reconcile pending transactions.</div></div><div class="prompt-row"><input id="prompt" placeholder="Ask about this sample scenario…" aria-label="Ask a sample question"><button id="ask">Ask</button></div></div>
+    <div class="card"><h3>Controlled autonomy model</h3><div class="rule-list"><div class="rule"><span>Analyse requirements</span><span class="pill good">Advisory</span></div><div class="rule"><span>Draft test cases</span><span class="pill good">Assisted</span></div><div class="rule"><span>Modify code in sandbox</span><span class="pill warn">Approval-gated</span></div><div class="rule"><span>Merge or deploy</span><span class="pill bad">Human approval</span></div></div><p>In a real deployment, agent identity, permissions, workspace isolation, audit and independent verification would be required.</p></div>
+  </div>
+</section>
+<section class="view" id="access">
+  <div class="eyebrow">Ways to explore Project Ignite</div><h1 style="font-size:clamp(34px,4vw,50px)">One product. Two entry points.</h1>
+  <p class="lead">The public demonstration and the planned ChatGPT experience will share the same product concepts and, once implemented, the same governed backend.</p>
+  <div class="grid" style="margin-top:28px">
+    <article class="card"><div class="card-icon">↗</div><span class="pill good">Available as this prototype</span><h3 style="margin-top:14px">Public web demonstration</h3><p>Explore sample workflows, quality scenarios, risk observations and the product vision in a browser.</p></article>
+    <article class="card"><div class="card-icon">✳</div><span class="pill warn">Planned integration</span><h3 style="margin-top:14px">Project Ignite in ChatGPT</h3><p>A future ChatGPT app could provide conversational access and interactive views. It must be built, tested and published separately.</p></article>
+    <article class="card"><div class="card-icon">◈</div><span class="pill">Shared foundation</span><h3 style="margin-top:14px">Governed intelligence services</h3><p>Common knowledge, evidence, permissions and business logic, with clear tenant boundaries for any real customer use.</p></article>
+  </div>
+  <div class="notice"><b>Current status:</b> This is a self-contained demonstration preview. This is a self-contained demonstration preview, publicly deployed on Cloudflare Pages. The ChatGPT integration is planned and is not yet a published ChatGPT app. All records and analysis shown are fictional and is not yet a published ChatGPT app. All records and analysis shown are fictional.</div>
+</section>
+<footer class="footer"><span>© Project Ignite · Product demonstration concept</span><span>Sample banking scenario · No customer data · Not for production use</span></footer>
+</main>
+</div>
+<script>
+const navButtons = document.querySelectorAll('.nav');
+function showView(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === id));
+  navButtons.forEach(b => b.classList.toggle('active', b.dataset.view === id));
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+navButtons.forEach(b => b.addEventListener('click', () => showView(b.dataset.view)));
+document.querySelectorAll('[data-go]').forEach(b => b.addEventListener('click', () => showView(b.dataset.go)));
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === b));
+  document.querySelectorAll('.tabview').forEach(v => { v.style.display = v.id === b.dataset.tab ? 'block' : 'none'; });
+}));
+document.getElementById('evaluate').addEventListener('click', () => {
+  const amount = Number(document.getElementById('amount').value);
+  const balance = Number(document.getElementById('balance').value);
+  const daily = Number(document.getElementById('daily').value);
+  const otp = document.getElementById('otp').value === 'yes';
+  const reasons = [];
+  if (!Number.isFinite(amount) || amount < 1) reasons.push('Amount is below the $1 minimum.');
+  if (amount > 10000) reasons.push('Amount exceeds the $10,000 single-transfer maximum.');
+  if (amount > balance) reasons.push('Available balance is insufficient.');
+  if (daily + amount > 20000) reasons.push('Daily cumulative limit would be exceeded.');
+  if (!otp) reasons.push('OTP verification has not been completed.');
+  const result = document.getElementById('result');
+  if (reasons.length) result.innerHTML = '<span class="pill bad">Sample outcome: reject / hold</span><br><br>' + reasons.map(x => '• ' + x).join('<br>') + '<br><br><span style="color:var(--ink-muted)">Illustrative rule evaluation only.</span>';
+  else result.innerHTML = '<span class="pill good">Sample outcome: rules satisfied</span><br><br>The entered values satisfy the demonstration rules. A real transaction would still require server-side validation, authorisation, fraud controls and ledger processing.';
+});
+function askSample() {
+  const input = document.getElementById('prompt');
+  const q = input.value.trim();
+  if (!q) return;
+  const body = document.getElementById('chatbody');
+  const user = document.createElement('div'); user.className='bubble user'; user.textContent=q; body.appendChild(user);
+  const ai = document.createElement('div'); ai.className='bubble ai';
+  const lower=q.toLowerCase();
+  if (lower.includes('duplicate') || lower.includes('retry')) ai.textContent='Check idempotency keys, request replay behaviour, ledger uniqueness and the user-visible transaction state. Simulate a timeout after commit, then retry the same request and verify only one transfer is recorded.';
+  else if (lower.includes('limit') || lower.includes('boundary') || lower.includes('amount')) ai.textContent='Use boundary values around the $1 minimum, $10,000 per-transfer maximum and $20,000 daily cumulative limit. Include concurrent requests to check for race conditions in daily-limit enforcement.';
+  else if (lower.includes('otp') || lower.includes('security')) ai.textContent='Test valid, invalid, expired and replayed OTPs, rate limiting, session expiry and safe error handling. Verify that a transfer cannot complete without the required verification.';
+  else ai.textContent='I would first map the question to the stated business rules, identify relevant application states and dependencies, then propose evidence-backed tests. In this prototype, I can only demonstrate sample reasoning; no live systems are connected.';
+  body.appendChild(ai); input.value=''; body.scrollTop=body.scrollHeight;
+}
+document.getElementById('ask').addEventListener('click', askSample);
+document.getElementById('prompt').addEventListener('keydown', e => { if(e.key==='Enter') askSample(); });
+</script>
+</body>
+</html>
